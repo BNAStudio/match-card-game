@@ -80,26 +80,6 @@ class Board {
         return result;
     }
 
-    // Crea obj y lo llena con instancias de ITEM
-    createInstanceItem(size){
-        // nuevo arr
-        const instanceNameArr = new Array()
-        // llenar arr con nombres
-        for(let i = 1; i <= size; i++){
-            instanceNameArr.push(`item${i}`)
-        }
-        // crear obj con instancias
-        const createInstances = instanceNameArr => {
-            // nuevo obj
-            const instanceItemsObj = {}
-            // crear instancias y asignar nombre dinamicamente
-            instanceNameArr.map( e => instanceItemsObj[e] = new Item() )
-            return instanceItemsObj
-        }
-    
-        return createInstances(instanceNameArr)
-    }
-
     // Crea el tablero (matriz)
     createBoard(){
         const mainContainer = document.querySelector(this._mainClass);
