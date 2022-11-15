@@ -15,7 +15,7 @@
 class Item {
     constructor() {
         this.elm = 'div';
-        this._class = [];
+        this._class = ['card', 'color-hidden'];
         this._color = ''
         this._position = ''
     }
@@ -32,8 +32,16 @@ class Item {
     set color(newColor) {
         this._color = newColor
     }
+
+    get position() {
+        return this._position;
+    }
+    set position(newPosition) {
+        this._position = newPosition
+    }
 }
 const newItem = new Item();
+
 
 // class Matrix
 /**
@@ -55,45 +63,58 @@ class Board {
     }
 
     // Crea un arr del tamaño size
-    createArr() {
-        for (let i = 1; i <= this._size; i++) {
-            this.randomArr.push(i)
+    createNumbersArr(size) {
+        let arr = []
+        for (let i = 1; i <= size; i++) {
+            arr.push(i)
         }
-        return this.randomArr
-    }   
+        return arr
+    }
 
     // Genera orden aleatorio en el array
-    getRandom() {
-        let newSize = this._size;
+    getRandom(size) {
+        const arr = this.createNumbersArr(size);
+        console.log(arr)
+        let newSize = size;
+
         let result = new Array(newSize);
-        let len = this.randomArr.length;
+        let len = arr.length;
         let taken = new Array(len);
 
         if (newSize > len)
-            throw new RangeError("getRandom: more elements taken than available");
+            throw new RangeError("getRandom: asignacion de elementos fuera del rango");
 
         while (newSize--) {
             let x = Math.floor(Math.random() * len);
-            result[newSize] = this.randomArr[x in taken ? taken[x] : x];
+            result[newSize] = arr[x in taken ? taken[x] : x];
             taken[x] = --len in taken ? taken[len] : len;
         }
         return result;
     }
 
     // Crea el tablero (matriz)
-    createBoard(){
+    createBoard() {
+        console.log(this.getRandom(this._size))
+        // const size = this._size
+        /**
+         * Funcion para creacion de instancias de ITEM
+         */
+
+        // DOM traversing
         const mainContainer = document.querySelector(this._mainClass);
         const board = document.createElement('div');
         board.classList.add('boardContainer');
         mainContainer.appendChild(board);
-        
-        for(let i = 1; i <= this._size; i++){
+
+        // Crea las filas
+        for (let i = 1; i <= this._size; i++) {
             const row = document.createElement('div');
             row.classList.add(`row-${i}`);
             board.appendChild(row);
             // console.log(row);
 
-            for(let j = 1; j <= this._size; j++){
+            // Rellena las filas con los ITEMS
+            for (let j = 1; j <= this._size; j++) {
                 const item = document.createElement(newItem.elm);
                 item.classList.add(`item-${i}.${j}`);
                 row.appendChild(item);
@@ -102,38 +123,44 @@ class Board {
         }
         // console.log(board);
     }
-}   
-const board = new Board(7);
-
-
-
-// Crea obj y lo llena con instancias de ITEM
-function createInstanceItem(size){
-    // nuevo arr
-    const instanceNameArr = new Array()
-    // llenar arr con nombres
-    for(let i = 1; i <= size; i++){
-        instanceNameArr.push(`item${i}`)
-    }
-    // crear obj con instancias
-    const createInstances = instanceNameArr => {
-        // nuevo obj
-        const instanceItemsObj = {}
-        // crear instancias y asignar nombre dinamicamente
-        instanceNameArr.map( e => instanceItemsObj[e] = new Item() )
-        return instanceItemsObj
-    }
-
-    return createInstances(instanceNameArr)
 }
+const board = new Board(12);
+board.createBoard()
 
-const newObjInstance = createInstanceItem(5);
 
-for(const prop in newObjInstance){
-    console.log(prop);
+// console.log(board.createArr())
+// console.log(board.getRandom())
+
+const arrClass = ['clase-1', 'clase-2', 'clase-3'];
+const colors = [
+    'MediumSeaGreen',
+    'Teal',
+    'MidnightBlue',
+    'Indigo',
+    'Magenta',
+    'Gold',
+    'RoyalBlue'
+];
+
+function createInstanceItems(size) {
+    const itemIntances = [];
+    for (let i = 0; i < size.length; i++) {
+        itemIntances.push(new Item())
+    }
+    return itemIntances
 }
-console.log(newObjInstance)
+const newObjInstance = createInstanceItems(arrClass)
+// console.log(newObjInstance);
 
+function assignProps(arrClass, newObjInstance, colors) {
+    for (let i = 0; i < newObjInstance.length; i++) {
+        const item = document.createElement(newObjInstance[i].elm);
+        item.classList.add(`item-${i}`);
+        item.dataset.color = colors[i];
 
-console.log(Object.values(newObjInstance)[0].elm = 'section')
-console.log(Object.values(newObjInstance))
+        newObjInstance[i].color = arrClass[i]
+        // console.log(newObjInstance[i].class);
+    }
+    // console.log(newObjInstance);
+}
+assignProps(arrClass, newObjInstance, colors)
