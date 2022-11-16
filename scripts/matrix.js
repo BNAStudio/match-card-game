@@ -1,3 +1,7 @@
+const arrClass = ['clase-1', 'clase-2', 'clase-3'];
+const colors = ['mediumSeaGreen', 'teal', 'midnightBlue', 'indigo', 'magenta', 'gold', 'royalBlue', 'purple', 'white', 'green', 'red', 'yellow', 'redLight', 'blueLight', 'indianRed', 'LightCoral', 'Salmon', 'DarkSalmon', 'Crimson', 'DeepPink', 'MediumVioletRed', 'PaleVioletRed', 'OrangeRed', 'Orange', 'Gold', 'Khaki', 'Lavender', 'Violet', 'Magenta', 'MediumPurple', 'Purple', 'MediumSlateBlue', 'GreenYellow', 'LightGreen', 'MediumAquamarine', 'DarkCyan'];
+
+
 // class items
 /**
  * atributos:
@@ -14,10 +18,11 @@
  */
 class Item {
     constructor() {
+        this._id = null;
         this.elm = 'div';
         this._class = ['card', 'color-hidden'];
         this._color = ''
-        this._position = ''
+        this._position = null
     }
     get class() {
         return this._class;
@@ -38,6 +43,13 @@ class Item {
     }
     set position(newPosition) {
         this._position = newPosition
+    }
+
+    get id() {
+        return this._id;
+    }
+    set id(newId) {
+        this._id = newId
     }
 }
 const newItem = new Item();
@@ -72,10 +84,11 @@ class Board {
     }
 
     // Genera orden aleatorio en el array
-    getRandom(size) {
-        const arr = this.createNumbersArr(size);
-        console.log(arr)
+    getRandom(arr, size) {
         let newSize = size;
+
+        // const arr = this.createNumbersArr(size);
+        // console.log(arr)
 
         let result = new Array(newSize);
         let len = arr.length;
@@ -94,10 +107,43 @@ class Board {
 
     // Crea el tablero (matriz)
     createBoard() {
-        console.log(this.getRandom(this._size))
-        // const size = this._size
+        // console.log(this.getRandom(this._size))
+        // Validacion tamaño tablero
+        if (this._size % 2 !== 0) return console.log('Ingrese un numero par');
+        if (!(this._size >= 2 && this._size <= 6)) return console.log('Ingrese un numero par entre 2 y 6');
+
+        const size = this._size
+        const squareSize = size * size // duplica el size para obtener todas las casillas
+        let finishItems;
+
+        // Crea array con colores ordenados de manera aleatoria y los duplica
+        function createColorArr(size, callback) {
+            const colorArrLenght = (size * size)/2;
+            let mainColorArr = callback(colors, colorArrLenght);
+            const duplicateColorArr = callback(mainColorArr, mainColorArr.length);
+            mainColorArr = mainColorArr.concat(duplicateColorArr)
+            // console.log(mainColorArr);
+            return mainColorArr
+        }
+        const itemsColors = createColorArr(size, this.getRandom);
+        // console.log(itemsColors.length);
+        // itemsColors.forEach((e, i) => console.log(i, e))
+
+        // Funcion para creacion de instancias de ITEM
+        function createInstanceItems(size) {
+            const itemIntances = [];
+            for (let i = 0; i < squareSize; i++) { // provisionalmente newSize
+                itemIntances.push(new Item())
+            }
+            return itemIntances
+        }
+        const items = createInstanceItems(size);
+        // console.log(items);
+
+
+
         /**
-         * Funcion para creacion de instancias de ITEM
+         * ! Verificar si es mejor instanciar los items afuera de la matriz o en ella
          */
 
         // DOM traversing
@@ -106,61 +152,22 @@ class Board {
         board.classList.add('boardContainer');
         mainContainer.appendChild(board);
 
+        // console.log(items);
+
+
         // Crea las filas
-        for (let i = 1; i <= this._size; i++) {
-            const row = document.createElement('div');
-            row.classList.add(`row-${i}`);
-            board.appendChild(row);
-            // console.log(row);
-
-            // Rellena las filas con los ITEMS
-            for (let j = 1; j <= this._size; j++) {
-                const item = document.createElement(newItem.elm);
-                item.classList.add(`item-${i}.${j}`);
-                row.appendChild(item);
-                // console.log(item);
+        for (let i = 0; i < squareSize; i++) {
+            function assignItems(items, itemsColors){
+                const propsItems = [...items]
+                propsItems[i].color = itemsColors[i];
+                propsItems[i].class = itemsColors[i];
+                propsItems[i].id = `item-${i+1}`;
+                return propsItems
             }
+            finishItems = assignItems(items, itemsColors)
         }
-        // console.log(board);
+        console.log(finishItems);
     }
 }
-const board = new Board(12);
+const board = new Board(4);
 board.createBoard()
-
-
-// console.log(board.createArr())
-// console.log(board.getRandom())
-
-const arrClass = ['clase-1', 'clase-2', 'clase-3'];
-const colors = [
-    'MediumSeaGreen',
-    'Teal',
-    'MidnightBlue',
-    'Indigo',
-    'Magenta',
-    'Gold',
-    'RoyalBlue'
-];
-
-function createInstanceItems(size) {
-    const itemIntances = [];
-    for (let i = 0; i < size.length; i++) {
-        itemIntances.push(new Item())
-    }
-    return itemIntances
-}
-const newObjInstance = createInstanceItems(arrClass)
-// console.log(newObjInstance);
-
-function assignProps(arrClass, newObjInstance, colors) {
-    for (let i = 0; i < newObjInstance.length; i++) {
-        const item = document.createElement(newObjInstance[i].elm);
-        item.classList.add(`item-${i}`);
-        item.dataset.color = colors[i];
-
-        newObjInstance[i].color = arrClass[i]
-        // console.log(newObjInstance[i].class);
-    }
-    // console.log(newObjInstance);
-}
-assignProps(arrClass, newObjInstance, colors)
