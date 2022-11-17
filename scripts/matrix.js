@@ -14,7 +14,6 @@ const colors = ['mediumSeaGreen', 'teal', 'midnightBlue', 'indigo', 'magenta', '
  * Metodos:
  * firstTarget: Seleccion primera carta
  * secondTarget: Seleccion segunda carta
- * 
  */
 class Item {
     constructor() {
@@ -55,7 +54,7 @@ class Item {
 const newItem = new Item();
 
 
-// class Matrix
+// class Board
 /**
  * Atributos:
  * size: tamaño
@@ -74,21 +73,9 @@ class Board {
         this.randomArr = []
     }
 
-    // Crea un arr del tamaño size
-    createNumbersArr(size) {
-        let arr = []
-        for (let i = 1; i <= size; i++) {
-            arr.push(i)
-        }
-        return arr
-    }
-
     // Genera orden aleatorio en el array
     getRandom(arr, size) {
         let newSize = size;
-
-        // const arr = this.createNumbersArr(size);
-        // console.log(arr)
 
         let result = new Array(newSize);
         let len = arr.length;
@@ -107,44 +94,33 @@ class Board {
 
     // Crea el tablero (matriz)
     createBoard() {
-        // console.log(this.getRandom(this._size))
         // Validacion tamaño tablero
         if (this._size % 2 !== 0) return console.log('Ingrese un numero par');
         if (!(this._size >= 2 && this._size <= 6)) return console.log('Ingrese un numero par entre 2 y 6');
 
         const size = this._size
-        const squareSize = size * size // duplica el size para obtener todas las casillas
+        const squareSize = size * size
         let finishItems;
 
         // Crea array con colores ordenados de manera aleatoria y los duplica
         function createColorArr(size, callback) {
-            const colorArrLenght = (size * size)/2;
+            const colorArrLenght = (size * size) / 2;
             let mainColorArr = callback(colors, colorArrLenght);
             const duplicateColorArr = callback(mainColorArr, mainColorArr.length);
             mainColorArr = mainColorArr.concat(duplicateColorArr)
-            // console.log(mainColorArr);
             return mainColorArr
         }
         const itemsColors = createColorArr(size, this.getRandom);
-        // console.log(itemsColors.length);
-        // itemsColors.forEach((e, i) => console.log(i, e))
 
         // Funcion para creacion de instancias de ITEM
-        function createInstanceItems(size) {
+        function createInstanceItems() {
             const itemIntances = [];
-            for (let i = 0; i < squareSize; i++) { // provisionalmente newSize
+            for (let i = 0; i < squareSize; i++) {
                 itemIntances.push(new Item())
             }
             return itemIntances
         }
-        const items = createInstanceItems(size);
-        // console.log(items);
-
-
-
-        /**
-         * ! Verificar si es mejor instanciar los items afuera de la matriz o en ella
-         */
+        const items = createInstanceItems();
 
         // DOM traversing
         const mainContainer = document.querySelector(this._mainClass);
@@ -152,22 +128,24 @@ class Board {
         board.classList.add('boardContainer');
         mainContainer.appendChild(board);
 
-        // console.log(items);
-
-
-        // Crea las filas
+        // Asigna propiedades de color
         for (let i = 0; i < squareSize; i++) {
-            function assignItems(items, itemsColors){
+            function assignItemsColorProps(items, itemsColors) {
                 const propsItems = [...items]
                 propsItems[i].color = itemsColors[i];
                 propsItems[i].class = itemsColors[i];
-                propsItems[i].id = `item-${i+1}`;
+                propsItems[i].id = `item-${i + 1}`;
                 return propsItems
             }
-            finishItems = assignItems(items, itemsColors)
+            finishItems = assignItemsColorProps(items, itemsColors)
         }
-        console.log(finishItems);
+
+        // Asigna posiciones
+        function createPositions(finishItems) {
+        }
+        createPositions(finishItems)
+        // const itemsPosition = createPositions(finishItems)
     }
 }
-const board = new Board(4);
+const board = new Board(2);
 board.createBoard()
