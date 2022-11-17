@@ -129,19 +129,20 @@ class Board {
         mainContainer.appendChild(board);
 
         // Asigna propiedades de color
-        for (let i = 0; i < squareSize; i++) {
-            function assignItemsColorProps(items, itemsColors) {
-                const propsItems = [...items]
+        function assignItemsColorProps(items, itemsColors) {
+            const propsItems = [...items]
+            for (let i = 0; i < squareSize; i++) {
                 propsItems[i].color = itemsColors[i];
                 propsItems[i].class = itemsColors[i];
                 propsItems[i].id = `item-${i + 1}`;
-                return propsItems
             }
-            finishItems = assignItemsColorProps(items, itemsColors)
+            console.log(propsItems);
         }
+        finishItems = assignItemsColorProps(items, itemsColors)
 
         // Asigna posiciones
         function createPositions(finishItems) {
+            
         }
         createPositions(finishItems)
         // const itemsPosition = createPositions(finishItems)
