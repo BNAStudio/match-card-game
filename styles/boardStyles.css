@@ -1,0 +1,115 @@
+.row {
+  border: 2px solid var(--color-primary);
+  width: 500px;
+  height: 100px;
+  display: flex;
+}
+
+.mediumSeaGreen {
+  background-color: mediumseagreen;
+}
+.darkCyan {
+  background-color: darkcyan;
+}
+.teal {
+  background-color: teal;
+}
+.midnightBlue {
+  background-color: midnightblue;
+}
+.indigo {
+  background-color: indigo;
+}
+.magenta {
+  background-color: magenta;
+}
+.gold {
+  background-color: gold;
+}
+.royalBlue {
+  background-color: royalblue;
+}
+.purple {
+  background-color: purple;
+}
+.white {
+  background-color: white;
+}
+.green {
+  background-color: green;
+}
+.red {
+  background-color: red;
+}
+.yellow {
+  background-color: yellow;
+}
+/* .redLight {
+    background-color: ;
+}
+.blueLight {
+    background-color: ;
+} */
+.indianRed {
+  background-color: indianRed;
+}
+.lightCoral {
+  background-color: lightCoral;
+}
+.salmon {
+  background-color: salmon;
+}
+.darkSalmon {
+  background-color: darkSalmon;
+}
+.crimson {
+  background-color: crimson;
+}
+.deepPink {
+  background-color: deepPink;
+}
+.mediumVioletRed {
+  background-color: mediumVioletRed;
+}
+.paleVioletRed {
+  background-color: paleVioletRed;
+}
+.orangeRed {
+  background-color: orangeRed;
+}
+.orange {
+  background-color: orange;
+}
+.gold {
+  background-color: gold;
+}
+.khaki {
+  background-color: khaki;
+}
+.lavender {
+  background-color: lavender;
+}
+.violet {
+  background-color: violet;
+}
+.magenta {
+  background-color: magenta;
+}
+.mediumPurple {
+  background-color: mediumPurple;
+}
+.purple {
+  background-color: purple;
+}
+.mediumSlateBlue {
+  background-color: mediumSlateBlue;
+}
+.greenYellow {
+  background-color: greenYellow;
+}
+.lightGreen {
+  background-color: lightGreen;
+}
+.mediumAquamarine {
+  background-color: mediumAquamarine;
+}
