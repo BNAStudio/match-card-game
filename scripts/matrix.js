@@ -1,6 +1,7 @@
 const arrClass = ['clase-1', 'clase-2', 'clase-3'];
 const colors = ['mediumSeaGreen', 'teal', 'midnightBlue', 'indigo', 'magenta', 'gold', 'royalBlue', 'purple', 'white', 'green', 'red', 'yellow', 'redLight', 'blueLight', 'indianRed', 'LightCoral', 'Salmon', 'DarkSalmon', 'Crimson', 'DeepPink', 'MediumVioletRed', 'PaleVioletRed', 'OrangeRed', 'Orange', 'Gold', 'Khaki', 'Lavender', 'Violet', 'Magenta', 'MediumPurple', 'Purple', 'MediumSlateBlue', 'GreenYellow', 'LightGreen', 'MediumAquamarine', 'DarkCyan'];
 
+let count;
 
 // class items
 /**
@@ -51,8 +52,6 @@ class Item {
         this._id = newId
     }
 }
-const newItem = new Item();
-
 
 // class Board
 /**
@@ -99,8 +98,11 @@ class Board {
         if (!(this._size >= 2 && this._size <= 6)) return console.log('Ingrese un numero par entre 2 y 6');
 
         const size = this._size
+        console.log('size:', size);
         const squareSize = size * size
+        console.log('squareSize:', squareSize);
         let finishItems;
+        console.log('======');
 
         // Crea array con colores ordenados de manera aleatoria y los duplica
         function createColorArr(size, callback) {
@@ -130,23 +132,45 @@ class Board {
 
         // Asigna propiedades de color
         function assignItemsColorProps(items, itemsColors) {
-            const propsItems = [...items]
+            let propsItems = [...items];
+            // let arrLength = propsItems.length
             for (let i = 0; i < squareSize; i++) {
                 propsItems[i].color = itemsColors[i];
                 propsItems[i].class = itemsColors[i];
                 propsItems[i].id = `item-${i + 1}`;
             }
-            console.log(propsItems);
+            return propsItems
         }
-        finishItems = assignItemsColorProps(items, itemsColors)
+        const colorItems = assignItemsColorProps(items, itemsColors)
 
-        // Asigna posiciones
-        function createPositions(finishItems) {
-            
+
+        // Funcion para asignar posiciones
+        function assignPosition(colorItems) {
+
+            // Funcion incrementa +1
+            function increment(size) {
+                const indexSize = size - 1
+                // debugger
+                count >= 0 & count < indexSize
+                    ? count += 1
+                    : count = 0;
+                return count
+            }
+
+            // Funcion asigna posiciones
+            function counter(size, items, callback) {
+                let counter
+                for (let i = 0; i < items.length; i++) {
+                    counter = callback(size)
+                    items[i].position = counter
+                }
+                console.table(items);
+                return counter
+            }
+            counter(size, colorItems, increment)
         }
-        createPositions(finishItems)
-        // const itemsPosition = createPositions(finishItems)
+        assignPosition(colorItems)
     }
 }
-const board = new Board(2);
+const board = new Board(4);
 board.createBoard()
